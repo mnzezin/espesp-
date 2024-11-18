@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Casa Sustentável Inteligente</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/chart.js/chart.umd.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .dashboard-time {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #2eca6a;
+    }
+
+    .dashboard-time span {
+      font-weight: 400;
+      color: #555;
+    }
+
+    /* Estilos dos novos painéis */
+    .metric-box {
+      background: #f9f9f9;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: all 0.3s ease;
+      margin: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 200px; /* Garante altura padrão igual entre os blocos */
+    }
+
+    .metric-box:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .metric-box h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #4e73df;
+    }
+
+    .metric-box span {
+      font-size: 1.1rem;
+      color: #888;
+    }
+
+    .metric-box i {
+      font-size: 4rem;
+      margin-bottom: 15px;
+    }
+
+    .wifi-strength {
+      color: #ff9800;
+    }
+
+    /* Barra de progresso de energia */
+    .progress-container {
+      background-color: #f1f1f1;
+      border-radius: 20px;
+      padding: 10px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .progress-bar {
+      height: 30px;
+      border-radius: 20px;
+      background-color: #4e73df;
+    }
+
+    /* Efeito para os cards de luz */
+    .card-light {
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      background-color: #fff;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .card-light:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-light i {
+      font-size: 3rem;
+      color: #ffcc00;
+    }
+
+    /* Cartões de previsão do tempo e Wi-Fi */
+    .info-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f1f4f8;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      margin: 15px;
+    }
+
+    .info-box i {
+      font-size: 3rem;
+      color: #ff9800;
+    }
+
+    .info-box span {
+      font-size: 1.3rem;
+      color: #666;
+    }
+
+    .info-box h2 {
+      font-size: 1.7rem;
+      font-weight: 600;
+    }
+
+    /* Ajustes para os painéis de consumo e energia solar */
+    .dashboard-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .dashboard-row .col-lg-3 {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    /* Ajuste para colocar Wi-Fi e Previsão acima da barra de energia */
+    .info-box-container {
+      margin-bottom: 20px;
+    }
+
+    .card-light {
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background-color: #fff;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease-in-out;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-light:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-light i {
+  font-size: 3rem;
+  color: #4e73df;
+  margin-bottom: 15px;
+}
+
+.card-light h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.card-light button {
+  font-size: 1rem;
+  padding: 10px 20px;
+}
+
+.card-light button.btn-primary {
+  background-color: #4e73df;
+  border-color: #4e73df;
+}
+
+.card-light button.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="#" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block">Casa Sustentável</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
+
+    <div class="ms-auto me-3 dashboard-time">
+      Horário de Brasília: <span id="brasiliaTime">--:--:--</span>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)" onclick="showDashboard()">
+          <i class="bi bi-grid"></i><span>Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)" onclick="showControlLuzes()">
+          <i class="bi bi-lightbulb"></i><span>Controle de Luz</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)" onclick="showMonitoramento()">
+          <i class="bi bi-thermometer-sun"></i><span>Monitoramento</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)" onclick="showAlarme()">
+          <i class="bi bi-bell"></i><span>Alarme</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Dashboard Casa Sustentável</h1>
+    </div>
+
+    <section class="section dashboard">
+     <!-- Dashboard -->
+<div id="dashboard" class="content-section">
+  <div class="dashboard-row">
+    <div class="col-lg-3">
+      <div class="metric-box">
+        <i class="bi bi-thermometer-sun"></i>
+        <h2 id="temperatura">Carregando...</h2>
+        <span>Temperatura Atual em São Paulo</span>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="metric-box">
+        <i class="bi bi-droplet-half"></i>
+        <h2 id="umidade">23%</h2>
+        <span>Umidade</span>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="metric-box">
+        <i class="fas fa-bolt"></i> <!-- Ícone de Consumo de Energia -->
+        <h2>5 kWh</h2>
+        <span>Consumo Diário</span>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="metric-box">
+        <i class="bi bi-house-door"></i>
+        <h2>10</h2>
+        <span>Cômodos</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Segunda linha com a intensidade do Wi-Fi, energia solar, gráficos de consumo -->
+  <div class="dashboard-row">
+    <div class="col-lg-3">
+      <div class="metric-box">
+        <i class="wifi-strength bi bi-wifi"></i> <!-- Ícone de Wi-Fi -->
+        <h2>Excelente</h2>
+        <span>Intensidade do Wi-Fi</span>
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="metric-box">
+        <i class="bi bi-sun"></i> <!-- Ícone de energia solar -->
+        <h2>3 kWh</h2>
+        <span>Energia Solar</span>
+      </div>
+    </div>
+
+    
+    
+        </div>
+
+        
+</div>
+
+
+      <!-- Controlar Luzes -->
+      <div id="control-lights" class="content-section" style="display:none;">
+        <h2>Controle de Luz</h2>
+        <div class="row">
+          <!-- Garagem -->
+          <div class="col-lg-3">
+            <div class="card-light">
+              <i class="bi bi-car-front"></i> <!-- Ícone para Garagem -->
+              <h3>Garagem</h3>
+              <button class="btn btn-primary" id="btnGaragem" onclick="toggleLuz('Garagem')">Ligar</button>
+            </div>
+          </div>
+      
+          <!-- Quarto Casal -->
+          <div class="col-lg-3">
+            <div class="card-light">
+              <a href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"></a>
+              <i class="fa fa-bed"></i> <!-- Ícone para Quarto Casal -->
+              <h3>Quarto Casal</h3>
+              <button class="btn btn-primary" id="btnQuartoCasal" onclick="toggleLuz('Quarto Casal')">Ligar</button>
+            </div>
+          </div>
+      
+          <!-- Banheiro Suíte -->
+          <div class="col-lg-3">
+            <div class="card-light">
+              <i class="fa fa-bath"></i> <!-- Ícone para Banheiro Suíte -->
+              <h3>Banheiro Suíte</h3>
+              <button class="btn btn-primary" id="btnBanheiroSuite" onclick="toggleLuz('BanheiroSuite')">Ligar</button>
+            </div>
+          </div>     
+      
+          <!-- Banheiro -->
+          <div class="col-lg-3">
+            <div class="card-light">
+              <i class="fa fa-shower"></i> <!-- Ícone para Banheiro -->
+              <h3>Banheiro</h3>
+              <button class="btn btn-primary" id="btnBanheiro" onclick="toggleLuz('Banheiro')">Ligar</button>
+            </div>
+          </div>
+      
+          <!-- Quarto -->
+          <div class="col-lg-3">
+            <div class="card-light">
+              <i class="fa fa-bed"></i> <!-- Ícone para Quarto -->
+              <h3>Quarto</h3>
+              <button class="btn btn-primary" id="btnQuarto" onclick="toggleLuz('Quarto')">Ligar</button>
+            </div>
+          </div>
+      
+          <!-- Lavabo -->
+          <div class="col-lg-3">
+            <div class="card-light">
+              <i class="fa fa-sink"></i> <!-- Ícone para Lavabo -->
+              <h3>Lavabo</h3>
+              <button class="btn btn-primary" id="btnLavabo" onclick="toggleLuz('Lavabo')">Ligar</button>
+            </div>
+          </div>
+      
+          <!-- Área Gourmet -->
+          <div class="col-lg-3">
+            <div class="card-light">
+              <i class="bi bi-egg-fried"></i> <!-- Ícone para Área Gourmet -->
+              <h3>Área Gourmet</h3>
+              <button class="btn btn-primary" id="btnAreaGourmet" onclick="toggleLuz('AreaGourmet')">Ligar</button>
+            </div>
+          </div>
+      
+          <!-- Dispensa -->
+          <div class="col-lg-3">
+            <div class="card-light">
+              <i class="bi bi-box"></i> <!-- Ícone para Dispensa -->
+              <h3>Dispensa</h3>
+              <button class="btn btn-primary" id="btnDispensa" onclick="toggleLuz('Dispensa')">Ligar</button>
+            </div>
+          </div>
+      
+          <!-- Lavanderia -->
+          <div class="col-lg-3">
+            <div class="card-light">
+              <i class="bi bi-droplet"></i> <!-- Ícone para Lavanderia -->
+              <h3>Lavanderia</h3>
+              <button class="btn btn-primary" id="btnLavanderia" onclick="toggleLuz('Lavanderia')">Ligar</button>
+            </div>
+          </div>
+      
+          <!-- Área Conveniência -->
+          <div class="col-lg-3">
+            <div class="card-light">
+              <i class="bi bi-house-door"></i> <!-- Ícone para Área Conveniência -->
+              <h3>Área Conveniência</h3>
+              <button class="btn btn-primary" id="btnAreaConvivencia" onclick="toggleLuz('AreaConvivencia')">Ligar</button>
+            </div>
+          </div>
+        </div>
+      </div>      
+
+      <!-- Monitoramento -->
+      <div id="monitoramento" class="content-section" style="display:none;">
+        <h2>Monitoramento</h2>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="metric-box">
+              <i class="bi bi-thermometer"></i>
+              <h2>Temperatura Interna: 22°C</h2>
+              <span>Monitoramento de Temperatura</span>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="metric-box">
+              <i class="bi bi-droplet-half"></i>
+              <h2>Umidade Interna: 50%</h2>
+              <span>Monitoramento de Umidade</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alarme -->
+      <div id="alarme" class="content-section" style="display:none;">
+        <h2>Alarme de Segurança</h2>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="metric-box">
+              <i class="bi bi-bell"></i>
+              <h2>Status do Alarme</h2>
+              <span>Ativado</span>
+              <button class="btn btn-danger">Desativar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    function showDashboard() {
+      document.getElementById('dashboard').style.display = 'block';
+      document.getElementById('control-lights').style.display = 'none';
+      document.getElementById('monitoramento').style.display = 'none';
+      document.getElementById('alarme').style.display = 'none';
+    }
+
+    function showControlLuzes() {
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('control-lights').style.display = 'block';
+      document.getElementById('monitoramento').style.display = 'none';
+      document.getElementById('alarme').style.display = 'none';
+    }
+
+    function showMonitoramento() {
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('control-lights').style.display = 'none';
+      document.getElementById('monitoramento').style.display = 'block';
+      document.getElementById('alarme').style.display = 'none';
+    }
+
+    function showAlarme() {
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('control-lights').style.display = 'none';
+      document.getElementById('monitoramento').style.display = 'none';
+      document.getElementById('alarme').style.display = 'block';
+    }
+
+    function updateBrasiliaTime() {
+    const brasiliaTime = new Date().toLocaleString("pt-BR", {
+      timeZone: "America/Sao_Paulo",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    });
+    document.getElementById("brasiliaTime").textContent = brasiliaTime;
+  }
+
+  // Atualiza o horário a cada segundo
+  setInterval(updateBrasiliaTime, 1000);
+  updateBrasiliaTime(); // Atualiza imediatamente ao carregar
+
+ // Gerencia o estado dos botões das luzes dos cômodos
+let luzes = {
+  Garagem: false,
+  'Quarto Casal': false,
+  'BanheiroSuite': false,
+  Banheiro: false,
+  Quarto: false,
+  Lavabo: false,
+  'AreaGourmet': false,
+  Dispensa: false,
+  Lavanderia: false,
+  'AreaConvivencia': false
+};
+
+function toggleLuz(comodo) {
+  // Modificar a string do nome do cômodo para garantir que o ID seja válido
+  const buttonId = `btn${comodo.replace(/ /g, "")}`; // Substitui todos os espaços por nada
+  const button = document.getElementById(`btn${comodo.replace(" ", "")}`);
+
+  if (!button) {
+    console.error(`Botão com id ${buttonId} não encontrado.`);
+    return;
+  }
+
+  // Alterna o estado da luz
+  luzes[comodo] = !luzes[comodo];
+
+  if (luzes[comodo]) {
+    button.textContent = 'Desligar';
+    button.classList.remove('btn-primary');
+    button.classList.add('btn-danger');
+
+    // Envia comando para o ESP32 para ligar a luz
+    enviarComandoESP32(`ligarLuz${comodo}`);
+  } else {
+    button.textContent = 'Ligar';
+    button.classList.remove('btn-danger');
+    button.classList.add('btn-primary');
+
+    // Envia comando para o ESP32 para desligar a luz
+    enviarComandoESP32(`desligarLuz${comodo}`);
+  }
+}
+
+// Função para enviar comandos ao ESP32
+function enviarComandoESP32(comando) {
+  const ipESP32 = "192.168.0.20";  // IP do seu ESP32
+  const url = `http://${ipESP32}/comando?acao=${comando}`;
+
+  // Envia o comando para o ESP32
+  fetch(url)
+    .then((response) => response.text())
+    .then((data) => console.log(data))
+    .catch((error) => console.error('Erro ao enviar comando:', error));
+}
+
+// Substitua 'YOUR_API_KEY' pela sua chave da API
+const apiKey = '0d044e6303cc4be888c184931241611';  // Chave da API
+
+// URL da API com a cidade de São Paulo
+const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=São Paulo`;
+
+// Função para pegar os dados da API
+fetch(url)
+    .then(response => response.json())  // Convertendo a resposta em formato JSON
+    .then(data => {
+        // Acessa a temperatura atual de São Paulo
+        const temperatura = data.current.temp_c;
+        const umidade = data.current.humidity;
+        // Atualiza o conteúdo da página com a temperatura
+        document.getElementById('temperatura').textContent = `${temperatura} °C`;
+        document.getElementById('umidade').textContent = ` ${umidade}%`;
+      
+
+
+    })
+    .catch(error => {
+        console.error('Erro ao obter dados da API:', error);
+        document.getElementById('temperatura').textContent = 'Erro ao carregar a temperatura';
+    });
+
+    // Atualiza a intensidade do Wi-Fi (valor simulado)
+  const wifiStrength = Math.floor(Math.random() * 101); // Simula intensidade (0 a 100)
+  document.getElementById('wifi').textContent = `${wifiStrength}%`;
+
+     // Exemplo de gráfico para consumo de energia
+  const ctxEnergia = document.getElementById('graficoEnergia').getContext('2d');
+  const graficoEnergia = new Chart(ctxEnergia, {
+    type: 'bar',
+    data: {
+      labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+      datasets: [{
+        label: 'Consumo de Energia (kWh)',
+        data: [5, 6, 4, 7, 8, 9, 7, 6, 5, 4, 6, 7],
+        backgroundColor: '#4e73df',
+        borderColor: '#4e73df',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  // Exemplo de gráfico para consumo de água
+  const ctxAgua = document.getElementById('graficoAgua').getContext('2d');
+  const graficoAgua = new Chart(ctxAgua, {
+    type: 'bar',
+    data: {
+      labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+      datasets: [{
+        label: 'Consumo de Água (m³)',
+        data: [30, 32, 28, 35, 40, 45, 50, 46, 40, 38, 34, 36],
+        backgroundColor: '#ff5733',
+        borderColor: '#ff5733',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+  </script>
+</body>
+
+</html>
